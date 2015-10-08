@@ -4,6 +4,7 @@ ruby '2.2.3'
 
 gem 'octokit'
 gem 'sinatra'
+gem 'unicorn'
 
 group :development, :test do
   gem 'rack-test'
