@@ -20,7 +20,7 @@ describe "handling github webhooks" do
   it "responds to 'issue_comment' webhooks" do
     stub_request(:get, "https://api.github.com/repositories/43625710/pulls/2").to_return(
       status: 200,
-      body: "{\"base\":{\"sha\":\"0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c\"}}",
+      body: "{\"head\":{\"sha\":\"0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c\"}}",
       headers: {"Content-Type"=> "application/json"}
     )
 
@@ -28,7 +28,7 @@ describe "handling github webhooks" do
       with(body: "{\"context\":\"code-review\",\"state\":\"success\"}")
 
     body = read_fixture("webhooks/issue_comment.json")
-    headers = {"X-Github-Event" => "issue_comment"}
+    headers = {"HTTP_X_GITHUB_EVENT" => "issue_comment"}
 
     post "/webhook", body, headers
 

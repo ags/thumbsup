@@ -5,8 +5,11 @@ require 'octokit'
 require 'json'
 
 require 'services/creates_commit_status'
+require 'services/determines_pull_request_sha'
+require 'services/handles_event/issue_comment'
 require 'services/handles_event/null'
 require 'services/handles_event/pull_request'
+require 'services/infers_code_review'
 
 class App < Sinatra::Base
   post '/webhook' do
@@ -29,6 +32,13 @@ class App < Sinatra::Base
     case event_type
     when "pull_request"
       HandlesEvent::PullRequest.new(
+        creates_commit_status: creates_commit_status
+      )
+    when "issue_comment"
+      determines_pr_sha = DeterminesPullRequestSHA.new(github_client: client)
+      HandlesEvent::IssueComment.new(
+        infers_code_review: InfersCodeReview.new,
+        determines_pull_request_sha: determines_pr_sha,
         creates_commit_status: creates_commit_status
       )
     else
