@@ -25,7 +25,6 @@ class App < Sinatra::Base
   private
 
   def build_event_handler(event_type)
-    # TODO OAuth app flow.
     client = Octokit::Client.new(access_token: ENV["GITHUB_ACCESS_TOKEN"])
     creates_commit_status = CreatesCommitStatus.new(github_client: client)
 
