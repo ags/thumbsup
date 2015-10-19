@@ -1,0 +1,12 @@
+{
+  "name": "thumbsup",
+  "description": "GitHub commit status to assist with pull request code review",
+  "repository": "https://github.com/ags/thumbsup",
+  "keywords": ["ruby", "sinatra", "github"],
+  "env": {
+    "GITHUB_ACCESS_TOKEN": {
+      "description": "A GitHub API token that provides `repo` scope access.",
+      "required": true
+    }
+  }
+}
