@@ -10,7 +10,9 @@ module HandlesEvent
     end
 
     def handle(event)
+      # TODO these two methods could be extracted to an 'event' object.
       return unless on_pull_request?(event)
+      return if commenter_is_author?(event)
 
       repository_id = event["repository"]["id"]
       issue_number = event["issue"]["number"]
@@ -33,6 +35,10 @@ module HandlesEvent
 
     def on_pull_request?(event)
       !!event["issue"]["pull_request"]
+    end
+
+    def commenter_is_author?(event)
+      event["issue"]["user"]["id"] == event["comment"]["user"]["id"]
     end
   end
 end
